@@ -100,7 +100,7 @@ const Home: NextPage = () => {
       <div className="container">
         <div className="row align-items-center justify-content-between">
           <div className="col-md">
-            <img src="/images/server.jpg" className="img-fluid" alt="" />
+            <img src="/images/server.jpg" className="img-fluid rounded-3" alt="" />
           </div>
           <div className="col-md p-5">
             <h2>Learn The Fundamentals</h2>
@@ -114,7 +114,7 @@ const Home: NextPage = () => {
               quae similique laboriosam iste minus placeat odit velit quos,
               nulla architecto amet voluptates?
             </p>
-            <a href="#" className="btn btn-light mt-3">
+            <a href="#" className="btn btn-dark mt-3">
               <i className="bi bi-chevron-right"></i> Read More
             </a>
           </div>
