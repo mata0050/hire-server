@@ -1,28 +1,49 @@
 /* eslint-disable @next/next/no-img-element */
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
+
 export default function Footer() {
+  const { pathname } = useRouter();
+  const [listStyles, setListStyles] = useState<string>('');
+
+  useEffect(() => {
+    if (pathname !== '/') {
+      return setListStyles('list-group-item bg-dark text-white');
+    }
+    setListStyles('list-group-item');
+  }, [pathname]);
+
   return (
-    <>
+    <div className={pathname !== '/' ? 'bg-dark' : ''}>
       <section className='p-5'>
         <div className='container'>
           <div className='row g-4'>
             <div className='col-md'>
-              <h2 className='text-center mb-4'>Contact Info</h2>
+              <h2
+                className={
+                  pathname !== '/'
+                    ? 'text-center mb-4 text-white'
+                    : 'text-center mb-4'
+                }
+              >
+                Contact Info
+              </h2>
               <ul className='list-group list-group-flush lead'>
-                <li className='list-group-item'>
+                <li className={listStyles}>
                   <span className='fw-bold'>Main Location:</span> Ottawa,
                   Gatineau Area
                 </li>
-                <li className='list-group-item'>
+                <li className={listStyles}>
                   <span className='fw-bold'>Phone:</span> (555) 555-5555
                 </li>
-                <li className='list-group-item'>
+                <li className={listStyles}>
                   <span className='fw-bold'>Email:</span> info@hireserver.com
                 </li>
-                <li className='list-group-item'>
+                <li className={listStyles}>
                   <span className='fw-bold'>Instagram:</span>{' '}
                   <a href='www.instagram.com'>@hireserver</a>
                 </li>
-                <li className='list-group-item'>
+                <li className={listStyles}>
                   <span className='fw-bold'>Facebook: </span>
                   <a href='www.instagram.com'>@hireserver</a>
                 </li>
@@ -51,6 +72,6 @@ export default function Footer() {
           </a>
         </div>
       </footer>
-    </>
+    </div>
   );
 }

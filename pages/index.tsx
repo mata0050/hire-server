@@ -39,7 +39,7 @@ const cardInfo: CardInterface[] = [
 
 const Home: NextPage = () => {
   return (
-    <>
+    <main>
       <section className='bg-dark text-light mt-5  p-5 p-lg-0 pt-lg-5 text-center text-sm-start'>
         <div className='container'>
           <div className='d-sm-flex align-items-center justify-content-between'>
@@ -142,7 +142,7 @@ const Home: NextPage = () => {
           </div>
         </div>
       </section>
-    </>
+    </main>
   );
 };
 

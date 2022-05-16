@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-html-link-for-pages */
 import { useState } from 'react';
 import Logo from './Logo';
 
@@ -17,7 +18,7 @@ export default function Navbar() {
   return (
     <nav className='navbar navbar-expand-lg bg-dark navbar-dark py-3 fixed-top'>
       <div className='container'>
-        <a href='#' className='navbar-brand'>
+        <a href='/' className='navbar-brand'>
           <Logo />
         </a>
 
@@ -100,11 +101,7 @@ export default function Navbar() {
             )}
 
             <li className='nav-item'>
-              <a
-                href='#instructors'
-                className='nav-link'
-                onClick={hideMobileMenu}
-              >
+              <a href='/register' className='nav-link' onClick={hideMobileMenu}>
                 Register
               </a>
             </li>

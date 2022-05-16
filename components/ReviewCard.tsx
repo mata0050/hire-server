@@ -22,14 +22,14 @@ const reviews: ReviewInterface[] = [
       'Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda accusamus nobis sed cupiditate iusto? Quibusdam.',
   },
   {
-    id: 1,
+    id: 3,
     imageUrl: 'https://randomuser.me/api/portraits/women/12.jpg',
     name: 'Jane Doe',
     review:
       'Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda accusamus nobis sed cupiditate iusto? Quibusdam.',
   },
   {
-    id: 1,
+    id: 4,
     imageUrl: 'https://randomuser.me/api/portraits/women/11.jpg',
     name: 'Sara Smith',
     review:
