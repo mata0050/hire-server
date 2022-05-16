@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import Logo from './Logo';
 
 // Top navbar
 export default function Navbar() {
@@ -17,7 +18,7 @@ export default function Navbar() {
     <nav className='navbar navbar-expand-lg bg-dark navbar-dark py-3 fixed-top'>
       <div className='container'>
         <a href='#' className='navbar-brand'>
-          Hire Server
+          <Logo />
         </a>
 
         <button
