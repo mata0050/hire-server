@@ -7,6 +7,7 @@ import Logo from '../components/Logo';
 import styles from '../styles/Home.module.scss';
 import CardInterface from '../shared/card.interface';
 import CardComponent from '../components/Card';
+import FAQ from '../components/FAQ';
 
 const cardInfo: CardInterface[] = [
   {
@@ -121,6 +122,10 @@ const Home: NextPage = () => {
         </div>
       </div>
     </section>
+
+
+    {/* FAQ */}
+    <FAQ/>
     </>
   );
 };
