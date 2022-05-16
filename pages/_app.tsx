@@ -4,6 +4,7 @@ import { Toaster } from 'react-hot-toast';
 // bootstrap css
 import 'bootstrap/dist/css/bootstrap.css';
 import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -11,6 +12,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       <Navbar />
       <Component {...pageProps} />
       <Toaster />
+      <Footer />
     </>
   );
 }
