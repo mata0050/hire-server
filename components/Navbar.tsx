@@ -1,9 +1,17 @@
-import Link from 'next/link';
+import { useState } from 'react';
 
 // Top navbar
 export default function Navbar() {
+  const [showDropdown, setShowDropdown] = useState<Boolean>(false);
+  const [showMobileMenu, setShowMobileMenu] = useState<Boolean>(false);
   const user = null;
   const username = null;
+
+  const onShowDropdown = () => setShowDropdown((prevState) => !prevState);
+
+  const onShowMobileMenu = () => setShowMobileMenu((prevState) => !prevState);
+
+  const hideMobileMenu = () => setShowMobileMenu(false);
 
   return (
     <nav className='navbar navbar-expand-lg bg-dark navbar-dark py-3 fixed-top'>
@@ -15,107 +23,92 @@ export default function Navbar() {
         <button
           className='navbar-toggler'
           type='button'
-          data-bs-toggle='collapse'
-          data-bs-target='#navmenu'
+          onClick={onShowMobileMenu}
         >
           <span className='navbar-toggler-icon'></span>
         </button>
 
-        <div className='collapse navbar-collapse' id='navmenu'>
+        <div
+          className={
+            showMobileMenu
+              ? 'collapse navbar-collapse show'
+              : 'collapse navbar-collapse '
+          }
+        >
           <ul className='navbar-nav ms-auto'>
             <li className='nav-item dropdown'>
               <a
-                className='nav-link dropdown-toggle show'
+                className='nav-link dropdown-toggle'
                 href='#'
                 id='navbarDropdownMenuLink'
                 role='button'
-                data-bs-toggle='dropdown'
-                aria-expanded='true'
+                onClick={onShowDropdown}
               >
                 Hire A Team Member
               </a>
               <ul
-                className='dropdown-menu show'
+                className={
+                  showDropdown ? 'dropdown-menu show' : 'dropdown-menu'
+                }
                 aria-labelledby='navbarDropdownMenuLink'
-                data-bs-popper='static'
               >
                 <li>
-                  <a className='dropdown-item' href='#'>
+                  <a
+                    className='dropdown-item'
+                    href='#hire-server'
+                    onClick={hideMobileMenu}
+                  >
                     Hire Server
                   </a>
                 </li>
                 <li>
-                  <a className='dropdown-item' href='#'>
+                  <a
+                    className='dropdown-item'
+                    href='#hire-busser'
+                    onClick={hideMobileMenu}
+                  >
                     Hire Busser
                   </a>
                 </li>
                 <li>
-                  <a className='dropdown-item' href='#'>
+                  <a
+                    className='dropdown-item'
+                    href='#hire-dishware'
+                    onClick={hideMobileMenu}
+                  >
                     Hire Dishwasher
                   </a>
                 </li>
               </ul>
             </li>
             <li className='nav-item'>
-              <a href='#learn' className='nav-link'>
+              <a href='#learn' className='nav-link' onClick={hideMobileMenu}>
                 About Us
               </a>
             </li>
+            {!username && (
+              <li className='nav-item'>
+                <a
+                  href='#questions'
+                  className='nav-link'
+                  onClick={hideMobileMenu}
+                >
+                  Login
+                </a>
+              </li>
+            )}
+
             <li className='nav-item'>
-              <a href='#questions' className='nav-link'>
-               Login
-              </a>
-            </li>
-            <li className='nav-item'>
-              <a href='#instructors' className='nav-link'>
+              <a
+                href='#instructors'
+                className='nav-link'
+                onClick={hideMobileMenu}
+              >
                 Register
               </a>
             </li>
           </ul>
         </div>
-      </div>
-    </nav>
-  );
-}
-
-function fun() {
-  const user = null;
-  const username = null;
-  return (
-    <nav className='navbar navbar-expand-lg bg-light'>
-      <div className='container-fluid'>
-        <ul>
-          <li>
-            <Link href='/'>
-              <button className='btn-logo'>FEED</button>
-            </Link>
-          </li>
-
-          {/* user is signed-in and has username */}
-          {username && (
-            <>
-              <li className='push-left'>
-                <Link href='/admin'>
-                  <button className='btn-blue'>Write Posts</button>
-                </Link>
-              </li>
-              <li>
-                <Link href={`/${username}`}>
-                  <img src={user?.photoURL} alt='ccccc' />
-                </Link>
-              </li>
-            </>
-          )}
-
-          {/* user is not signed OR has not created username */}
-          {!username && (
-            <li>
-              <Link href='/enter'>
-                <button className='btn-blue'>Log in</button>
-              </Link>
-            </li>
-          )}
-        </ul>
       </div>
     </nav>
   );
