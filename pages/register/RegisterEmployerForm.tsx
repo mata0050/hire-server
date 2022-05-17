@@ -1,34 +1,67 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
+import { useRouter } from 'next/router';
 import Select from 'react-select';
 
-interface UserInterface {
-  firstName: string;
-  lastName: string;
-  email: string;
-  avatar: string;
-}
+import { firestore } from '../../lib/firebase';
+import { UserContext } from '../../lib/context';
+import {
+  UserInterface,
+} from '../../shared/userInfo.interface';
+
+
 
 export default function RegisterEmployerForm({}) {
+  const router = useRouter();
+  const { user } = useContext(UserContext);
   const [formData, setFormData] = useState<UserInterface>({
     firstName: '',
     lastName: '',
     email: '',
     avatar: '',
+    displayName: '',
+    role: '',
   });
 
-  const { firstName, lastName, email, avatar } = formData;
+  const { firstName, lastName, email, avatar, displayName, role } = formData;
 
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((preState) => ({ ...preState, [name]: value }));
   };
 
-  const onHandleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  useEffect(() => {
+    if (user) {
+      const name = user.displayName.split(' ');
+
+      setFormData((preState) => ({
+        ...preState,
+        email: user.email,
+        firstName: name[0],
+        lastName: name[1],
+      }));
+    }
+  }, [user]);
+
+  const onHandleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    const userDoc = firestore.doc(`users/${user.uid}`);
+
+    const batch = firestore.batch();
+    batch.set(userDoc, {
+      firstName,
+      lastName,
+      displayName: user.displayName,
+      email: user.email,
+      avatar: user.photoURL,
+      role: 'Employer',
+    });
+    await batch.commit();
+    router.push('/dashboard');
   };
 
   return (
-    <main className='container p-5'>
+    <div className='container p-5'>
       <form onSubmit={onHandleSubmit} className='p-5 border rounded-5'>
         <h3 className='mb-4'>Register As Employer</h3>
 
@@ -44,6 +77,7 @@ export default function RegisterEmployerForm({}) {
             placeholder='First Name'
             value={firstName}
             onChange={handleOnChange}
+            required
           />
         </div>
 
@@ -59,6 +93,7 @@ export default function RegisterEmployerForm({}) {
             placeholder='First Name'
             value={lastName}
             onChange={handleOnChange}
+            required
           />
         </div>
 
@@ -74,6 +109,7 @@ export default function RegisterEmployerForm({}) {
             placeholder='name@example.com'
             value={email}
             onChange={handleOnChange}
+            disabled
           />
         </div>
 
@@ -81,6 +117,6 @@ export default function RegisterEmployerForm({}) {
           Register
         </button>
       </form>
-    </main>
+    </div>
   );
 }

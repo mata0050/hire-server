@@ -1,31 +1,26 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
+import { useRouter } from 'next/router';
 import Select from 'react-select';
 
-interface UserInterface {
-  firstName: string;
-  lastName: string;
-  email: string;
-  avatar: string;
-  busser: boolean;
-  server: boolean;
-  dishwasher: boolean;
-  availability: {
-    monday: boolean;
-    tuesday: boolean;
-    wednesday: boolean;
-    thursday: boolean;
-    friday: boolean;
-    saturday: boolean;
-    sunday: boolean;
-  };
-}
+import { firestore } from '../../lib/firebase';
+import { UserContext } from '../../lib/context';
+import {
+  UserInterface,
+  EmployeeUserInterface,
+} from '../../shared/userInfo.interface';
+
+interface EmployeeInterface extends UserInterface, EmployeeUserInterface {}
 
 export default function RegisterEmployeeForm({}) {
-  const [formData, setFormData] = useState<UserInterface>({
+  const router = useRouter();
+  const { user } = useContext(UserContext);
+  const [formData, setFormData] = useState<EmployeeInterface>({
     firstName: '',
     lastName: '',
     email: '',
     avatar: '',
+    displayName: '',
+    role: '',
     busser: false,
     server: false,
     dishwasher: false,
@@ -60,6 +55,19 @@ export default function RegisterEmployeeForm({}) {
       sunday,
     },
   } = formData;
+
+  useEffect(() => {
+    if (user) {
+      const name = user.displayName.split(' ');
+
+      setFormData((preState) => ({
+        ...preState,
+        email: user.email,
+        firstName: name[0],
+        lastName: name[1],
+      }));
+    }
+  }, [user]);
 
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -115,9 +123,37 @@ export default function RegisterEmployeeForm({}) {
     { value: 'West Carleton', label: 'West Carleton' },
   ];
 
-  const onHandleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const onHandleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    const userDoc = firestore.doc(`users/${user.uid}`);
+
+    const batch = firestore.batch();
+    batch.set(userDoc, {
+      firstName,
+      lastName,
+      displayName: user.displayName,
+      email: user.email,
+      avatar: user.photoURL,
+      role: 'Employee',
+      busser,
+      server,
+      dishwasher,
+      availability: {
+        monday,
+        tuesday,
+        wednesday,
+        thursday,
+        friday,
+        saturday,
+        sunday,
+      },
+    });
+    await batch.commit();
+    router.push('/dashboard');
   };
+
+
 
   return (
     <main className='container p-5'>
@@ -166,6 +202,7 @@ export default function RegisterEmployeeForm({}) {
             placeholder='name@example.com'
             value={email}
             onChange={handleOnChange}
+            disabled
           />
         </div>
 
@@ -253,7 +290,7 @@ export default function RegisterEmployeeForm({}) {
               type='checkbox'
               name='monday'
               id='monday'
-              value={monday.toString()}
+              value={monday?.toString()}
               onChange={handleAvailabilityOnChange}
             />
             <label className='form-check-label' htmlFor='monday'>
@@ -267,7 +304,7 @@ export default function RegisterEmployeeForm({}) {
               type='checkbox'
               name='tuesday'
               id='tuesday'
-              value={tuesday.toString()}
+              value={tuesday?.toString()}
               onChange={handleAvailabilityOnChange}
             />
             <label className='form-check-label' htmlFor='tuesday'>
@@ -281,7 +318,7 @@ export default function RegisterEmployeeForm({}) {
               type='checkbox'
               name='wednesday'
               id='wednesday'
-              value={wednesday.toString()}
+              value={wednesday?.toString()}
               onChange={handleAvailabilityOnChange}
             />
             <label className='form-check-label' htmlFor='wednesday'>
@@ -295,7 +332,7 @@ export default function RegisterEmployeeForm({}) {
               type='checkbox'
               name='thursday'
               id='thursday'
-              value={thursday.toString()}
+              value={thursday?.toString()}
               onChange={handleAvailabilityOnChange}
             />
             <label className='form-check-label' htmlFor='thursday'>
@@ -309,7 +346,7 @@ export default function RegisterEmployeeForm({}) {
               type='checkbox'
               name='friday'
               id='friday'
-              value={friday.toString()}
+              value={friday?.toString()}
               onChange={handleAvailabilityOnChange}
             />
             <label className='form-check-label' htmlFor='friday'>
@@ -323,7 +360,7 @@ export default function RegisterEmployeeForm({}) {
               type='checkbox'
               name='saturday'
               id='saturday'
-              value={saturday.toString()}
+              value={saturday?.toString()}
               onChange={handleAvailabilityOnChange}
             />
             <label className='form-check-label' htmlFor='saturday'>
@@ -337,7 +374,7 @@ export default function RegisterEmployeeForm({}) {
               type='checkbox'
               name='sunday'
               id='sunday'
-              value={sunday.toString()}
+              value={sunday?.toString()}
               onChange={handleAvailabilityOnChange}
             />
             <label className='form-check-label' htmlFor='sunday'>

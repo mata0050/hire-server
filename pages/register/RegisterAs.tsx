@@ -37,8 +37,8 @@ export default function RegisterAs({
                   className='btn btn-primary'
                   onClick={
                     info.link === 'Employer'
-                      ? onShowEmployerForm
-                      : onShowEmployeeForm
+                      ? onShowEmployeeForm
+                      : onShowEmployerForm
                   }
                 >
                   Register as {info.link}
