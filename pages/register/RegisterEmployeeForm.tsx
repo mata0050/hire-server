@@ -20,7 +20,7 @@ interface UserInterface {
   };
 }
 
-export default function Page({}) {
+export default function RegisterEmployeeForm({}) {
   const [formData, setFormData] = useState<UserInterface>({
     firstName: '',
     lastName: '',
@@ -115,10 +115,10 @@ export default function Page({}) {
     { value: 'West Carleton', label: 'West Carleton' },
   ];
 
-
   const onHandleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
   };
+
   return (
     <main className='container p-5'>
       <form onSubmit={onHandleSubmit} className='p-5 border rounded-5'>
