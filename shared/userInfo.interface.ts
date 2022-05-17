@@ -21,3 +21,18 @@ export interface EmployeeUserInterface {
     sunday: boolean;
   };
 }
+
+
+export interface EmployeeInterface extends UserInterface, EmployeeUserInterface {}
+
+interface FireBaseInterface {
+  uid: string;
+  photoURL: string;
+}
+
+interface UserFirebaseInterface extends UserInterface, FireBaseInterface {}
+
+export interface UserContextState {
+  user: UserFirebaseInterface | null;
+  userProfile: EmployeeInterface | null;
+}

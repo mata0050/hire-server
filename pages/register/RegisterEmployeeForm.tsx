@@ -6,10 +6,10 @@ import { firestore } from '../../lib/firebase';
 import { UserContext } from '../../lib/context';
 import {
   UserInterface,
-  EmployeeUserInterface,
+  EmployeeInterface,
 } from '../../shared/userInfo.interface';
 
-interface EmployeeInterface extends UserInterface, EmployeeUserInterface {}
+
 
 export default function RegisterEmployeeForm({}) {
   const router = useRouter();
@@ -126,15 +126,15 @@ export default function RegisterEmployeeForm({}) {
   const onHandleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const userDoc = firestore.doc(`users/${user.uid}`);
+    const userDoc = firestore.doc(`users/${user?.uid}`);
 
     const batch = firestore.batch();
     batch.set(userDoc, {
       firstName,
       lastName,
-      displayName: user.displayName,
-      email: user.email,
-      avatar: user.photoURL,
+      displayName: user?.displayName,
+      email: user?.email,
+      avatar: user?.photoURL,
       role: 'Employee',
       busser,
       server,
