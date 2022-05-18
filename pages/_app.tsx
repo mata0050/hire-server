@@ -12,6 +12,7 @@ import Footer from '../components/Footer';
 function MyApp({ Component, pageProps }: AppProps) {
   const userData  = useUserData();
   // const { userProfile } = userData;
+  console.log(userData)
   return (
     <UserContext.Provider value={userData}>
       <Navbar />

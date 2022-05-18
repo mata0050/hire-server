@@ -28,7 +28,7 @@ export default function Register({}) {
     getFindUser();
   }, [router, user]);
 
-  console.log(user);
+ 
 
   const onShowEmployerForm = () => {
     setShowEmployerForm((preState) => !preState);

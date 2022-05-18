@@ -13,7 +13,7 @@ export default function Navbar() {
   const router = useRouter();
   const [showDropdown, setShowDropdown] = useState<Boolean>(false);
   const [showMobileMenu, setShowMobileMenu] = useState<Boolean>(false);
-  const { user } = useContext(UserContext);
+  const { userProfile } = useContext(UserContext);
 
   const onShowDropdown = () => setShowDropdown((prevState) => !prevState);
 
@@ -46,19 +46,16 @@ export default function Navbar() {
           }
         >
           <ul className='navbar-nav ms-auto'>
-            {!user ? (
+            {!userProfile ? (
               <>
                 <li className='nav-item dropdown'>
                   <span
                     className='nav-link dropdown-toggle'
-          
                     id='navbarDropdownMenuLink'
                     role='button'
                     onClick={onShowDropdown}
                   >
-                    <a >
-                      Hire A Team Member
-                    </a>
+                    <a>Hire A Team Member</a>
                   </span>
                   <ul
                     className={
@@ -67,39 +64,51 @@ export default function Navbar() {
                     aria-labelledby='navbarDropdownMenuLink'
                   >
                     <li>
-                      <Link href='#hire-server' onClick={hideMobileMenu}>
-                        <a className='dropdown-item'>Hire Server</a>
+                      <Link href='#hire-server'>
+                        <a className='dropdown-item' onClick={hideMobileMenu}>
+                          Hire Server
+                        </a>
                       </Link>
                     </li>
                     <li>
-                      <Link href='#hire-busser' onClick={hideMobileMenu}>
-                        <a className='dropdown-item'>Hire Busser</a>
+                      <Link href='#hire-busser'>
+                        <a className='dropdown-item' onClick={hideMobileMenu}>
+                          Hire Busser
+                        </a>
                       </Link>
                     </li>
                     <li>
-                      <Link href='#hire-dishware' onClick={hideMobileMenu}>
-                        <a className='dropdown-item'>Hire Dishwasher</a>
+                      <Link href='#hire-dishware'>
+                        <a className='dropdown-item' onClick={hideMobileMenu}>
+                          Hire Dishwasher
+                        </a>
                       </Link>
                     </li>
                   </ul>
                 </li>
                 <li className='nav-item'>
-                  <Link href='#learn' onClick={hideMobileMenu}>
-                    <a className='nav-link'>About Us</a>
+                  <Link href='#learn'>
+                    <a className='nav-link' onClick={hideMobileMenu}>
+                      About Us
+                    </a>
                   </Link>
                 </li>
 
                 <li className='nav-item'>
-                  <Link href='#questions' onClick={hideMobileMenu}>
-                    <a className='nav-link'>Login</a>
+                  <Link href='/login'>
+                    <a className='nav-link' onClick={hideMobileMenu}>
+                      Login
+                    </a>
                   </Link>
                 </li>
               </>
             ) : (
               <>
                 <li className='nav-item'>
-                  <Link href='/dashboard' onClick={hideMobileMenu}>
-                    <a className='nav-link'>Dashboard</a>
+                  <Link href='/dashboard'>
+                    <a className='nav-link' onClick={hideMobileMenu}>
+                      Dashboard
+                    </a>
                   </Link>
                 </li>
                 <li className='nav-item'>
@@ -115,7 +124,7 @@ export default function Navbar() {
                 </li>
                 <li className='nav-item pt-2'>
                   <img
-                    src={user.avatar}
+                    src={userProfile?.avatar}
                     alt=''
                     className='img-fluid rounded-circle w-50 px-3 '
                   />
@@ -123,15 +132,13 @@ export default function Navbar() {
               </>
             )}
 
-            {!user && (
+            {!userProfile && (
               <li className='nav-item'>
-                <a
-                  href='/register'
-                  className='nav-link'
-                  onClick={hideMobileMenu}
-                >
-                  Register
-                </a>
+                <Link href='/register'>
+                  <a className='nav-link' onClick={hideMobileMenu}>
+                    Register
+                  </a>
+                </Link>
               </li>
             )}
           </ul>
